@@ -1,4 +1,4 @@
-package in.krraghavendra.microservice.productcatalog.service;
+package in.krraghavendra.microservice.productcatalog.model;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

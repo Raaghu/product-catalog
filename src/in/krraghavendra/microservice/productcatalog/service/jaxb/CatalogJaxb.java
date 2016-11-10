@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="catalog")
-public class Catalog {
+public class CatalogJaxb {
 	@XmlAttribute(name="id")
 	private int id;
 	
