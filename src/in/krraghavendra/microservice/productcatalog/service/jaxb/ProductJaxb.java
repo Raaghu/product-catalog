@@ -1,27 +1,31 @@
-package in.krraghavendra.microservice.productcatalog.model;
+package in.krraghavendra.microservice.productcatalog.service.jaxb;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
-@Table(name="PRODUCT")
-public class Product {
+@XmlRootElement(name="product")
+public class ProductJaxb {
 	
-	@Id @GeneratedValue
-	@Column(name="ID")
+	@XmlAttribute(name="id")
 	private int id;
 	
-	@Column(name="NAME")
+	@XmlAttribute(name="name")
 	private String name;
 	
-	@Column(name="DESCRIPTION")
+	@XmlAttribute(name="description")
 	private String description;
 	
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -38,14 +42,6 @@ public class Product {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public boolean equals(Product product){
-		return this.id == product.getId() && this.name == product.getName() && this.description == product.getDescription();
 	}
 
 }
