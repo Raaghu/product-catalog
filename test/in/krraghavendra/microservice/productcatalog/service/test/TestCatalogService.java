@@ -11,19 +11,16 @@ import java.util.logging.Logger;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.WebAppContext;
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.jetty.JettyHttpContainer;
-import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.jetty.servlet.JettyWebContainerFactory;
 import org.glassfish.jersey.logging.LoggingFeature;
-import org.glassfish.jersey.server.ContainerFactory;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,9 +29,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import in.krraghavendra.microservice.productcatalog.model.Util;
 import in.krraghavendra.microservice.productcatalog.service.ApplicationConfig;
 import in.krraghavendra.microservice.productcatalog.service.jaxb.CatalogJaxb;
-import in.krraghavendra.microservice.session.SessionListener;
 
 public class TestCatalogService {
 	
@@ -54,23 +51,17 @@ public class TestCatalogService {
 			
 			baseUri = UriBuilder.fromUri("http://localhost/").port(port).build();
 			
-			//Application config = new ApplicationConfig();
-			
 			Map<String,String> initParams = new HashMap<String,String>();
 			initParams.put("javax.ws.rs.Application", ApplicationConfig.class.getName());
 
 			
 			ServletContainer container = new ServletContainer();
-			container.getServletContext().createListener(SessionListener.class);
 			
 			server = JettyWebContainerFactory.create(baseUri, container , initParams,new HashMap());
+			WebAppContext handler =  (WebAppContext)server.getHandler();
+			handler.getServletContext().setAttribute("hibernateSession", Util.getHibernateSession());
 			
 			server.start();
-			
-			
-			//final JettyHttpContainer container = ContainerFactory.createContainer(JettyHttpContainer.class, config);
-			//container.
-	        //server = JettyHttpContainerFactory.createServer(baseUri, null, container, true);
 	        
 	        Logger logger = Logger.getLogger(TestCatalogService.class.getName());
 

@@ -28,7 +28,7 @@ public class CatalogService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addCatalog(CatalogJaxb catalogJaxb){
-		Session session = (Session)request.getSession().getAttribute("hibernateSession");
+		Session session = (Session)request.getServletContext().getAttribute("hibernateSession");
 		Transaction tx = session.beginTransaction();
 		
 		Catalog catalog = new Catalog();
@@ -45,7 +45,7 @@ public class CatalogService {
 	@DELETE
 	@Path("{id}")
 	public Response deleteCatalog(@PathParam("id") int id){
-		Session session = (Session)request.getSession().getAttribute("hibernateSession");
+		Session session = (Session)request.getServletContext().getAttribute("hibernateSession");
 		Transaction tx = session.beginTransaction();
 		
 		Catalog catalog = session.load(Catalog.class, id);
